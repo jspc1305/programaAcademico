@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Académico</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    
+    <header class="bg-white shadow-md p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-gray-800">Registro Académico</h1>
+            <h2 id="ctTitulo" class="text-lg font-semibold text-gray-800">CT: No definido</h2>
+            <button id="openPopup" class="bg-green-500 text-white py-2 px-4 rounded">Datos CT</button>
+        </div>
+    </header>
+
+    <!-- Popup de Datos CT -->
+    <div id="popup" class="popup hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="popup-content bg-white p-6 rounded shadow-lg relative w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+            <span id="closePopup" class="absolute top-2 right-4 text-green-600 text-2xl cursor-pointer font-bold">X</span>
+            <h2 class="text-xl font-semibold mb-4">Registro de Información</h2>
+            <form id="registroForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <label>Nombre del CT:<input type="text" id="nombreCT" required class="w-full border p-2"></label>
+                    <label>C.C.T:<input type="text" id="cct" required class="w-full border p-2"></label>
+                    <label>Fecha:<input type="date" id="fecha" required class="w-full border p-2"></label>
+                    <label>Ciclo Escolar:<input type="text" id="cicloEscolar" required class="w-full border p-2"></label>
+                    <label>Horario:<input type="text" id="horario" required class="w-full border p-2"></label>
+                    <label>Grado y Grupo:<input type="text" id="gradoGrupo" required class="w-full border p-2"></label>
+                    <label>Nombre del Docente:<input type="text" id="nombreDocente" required class="w-full border p-2"></label>
+
+                    <!-- Selector N° Visita -->
+                    <div class="col-span-2">
+                        <label class="block text-gray-700 font-medium">N° Visita:</label>
+                        <div class="flex space-x-4">
+                            <label><input type="radio" name="numVisita" value="1ra" class="mr-1"> 1ra</label>
+                            <label><input type="radio" name="numVisita" value="2da" class="mr-1"> 2da</label>
+                            <label><input type="radio" name="numVisita" value="3ra" class="mr-1"> 3ra</label>
+                        </div>
+                    </div>
+
+                    <label>No. de Alumnos:<input type="number" id="numAlumnos" required class="w-full border p-2"></label>
+                    <label>Presentes:<input type="number" id="presentes" required class="w-full border p-2"></label>
+                    <label>A.R.A:<input type="text" id="ara" required class="w-full border p-2"></label>
+                </div>
+                <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded">Guardar</button>
+                <button type="button" id="descargarRespaldo" class="bg-blue-500 text-white py-2 px-4 rounded">Descargar Respaldo</button>
+            </form>
+            <p>Cargar:</p>
+            <input type="file" id="cargarRespaldo" class="mt-2">
+        </div>
+    </div>
+
+    
+    <main class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center text-center p-4">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 20V9L12 4L21 9V20H14V14H10V20H3Z" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="mt-4">
+                        <h2 class="text-lg font-medium text-gray-800">Ambientes de Aprendizaje</h2>
+                        <p class="text-sm text-gray-600">Explore varias configuraciones de aprendizaje interactivo para mejorar su experiencia educativa.</p>
+                        <a href="ambientesAprendizaje.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center text-center p-4">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 3H19V21H5V3Z" stroke="#FFEB3B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M8 7H16" stroke="#FFEB3B" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M8 11H16" stroke="#FFEB3B" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M8 15H13" stroke="#FFEB3B" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <div class="mt-4">
+                        <h2 class="text-lg font-medium text-gray-800">Cuadernos de los Alumnos</h2>
+                        <p class="text-sm text-gray-600">Organiza y gestiona tus notas de forma eficiente con nuestras libretas digitales.</p>
+                        <a href="cuadernosAlumnos.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center text-center p-4">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 20H20M4 20V10M4 20H8M8 20V4M8 20H12M12 20V14M12 20H16M16 20V7M16 20H20M20 20V10" stroke="#F44336" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="mt-4">
+                        <h2 class="text-lg font-medium text-gray-800">Evaluación Formativa</h2>
+                        <p class="text-sm text-gray-600">Participar en evaluaciones continuas para seguir su progreso de aprendizaje.</p>
+                        <a href="evaluacionFormativa.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center text-center p-4">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="7" r="4" stroke="#2196F3" stroke-width="2"/>
+                        <path d="M4 21V19C4 16.79 5.79 15 8 15H16C18.21 15 20 16.79 20 19V21" stroke="#2196F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="mt-4">
+                        <h2 class="text-lg font-medium text-gray-800">Docente</h2>
+                        <p class="text-sm text-gray-600">Acceda a recursos y herramientas diseñados para que los educadores faciliten el aprendizaje.</p>
+                        <a href="docente.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center text-center p-4">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="3" y="3" width="18" height="18" rx="2" stroke="#9C27B0" stroke-width="2"/>
+                        <path d="M7 3V7" stroke="#9C27B0" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M17 3V7" stroke="#9C27B0" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M7 11H17" stroke="#9C27B0" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <div class="mt-4">
+                        <h2 class="text-lg font-medium text-gray-800">Organización de la Clase</h2>
+                        <p class="text-sm text-gray-600">Administre eficientemente horarios de clases y grupos de estudiantes con facilidad.</p>
+                        <a href="organizacionClase.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center text-center p-4">
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 2H14L20 8V22H6V2Z" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M14 2V8H20" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 13H15" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M9 17H15" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                        <path d="M9 9H10" stroke="#000" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <div class="mt-4">
+                        <h2 class="text-lg font-medium text-gray-800">Generar Reporte</h2>
+                        <p class="text-sm text-gray-600">Cree informes completos para analizar el rendimiento académico.</p>
+                        <a href="reporte.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h2 class="text-lg font-medium text-gray-800">Historial</h2>
+                    <p class="text-sm text-gray-600">Registros previos y seguimiento de actividades.</p>
+                    <a href="historial.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                </div>
+                <div class="bg-white rounded-lg shadow-md p-4">
+                    <h2 class="text-lg font-medium text-gray-800">Intervención Pedagógica</h2>
+                    <p class="text-sm text-gray-600">Estrategias y medidas tomadas para mejorar el aprendizaje.</p>
+                    <a href="intervencionPedagogica.html" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm">Enter</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white shadow-md mt-8">
+        <div class="max-w-7xl mx-auto py-4 text-center text-gray-600">
+            <p>&copy; 2025 Registro Académico. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

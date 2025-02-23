@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial de CT</title>
+    <link rel="stylesheet" href="styles2.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+
+    <!-- Cabecera con navegación -->
+    <header class="bg-white shadow-md p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:underline">Inicio</a></li>
+                    <li><a href="ambientesAprendizaje.html" class="hover:underline">Ambientes de Aprendizaje</a></li>
+                    <li><a href="cuadernosAlumnos.html" class="hover:underline">Cuadernos de los Alumnos</a></li>
+                    <li><a href="evaluacionFormativa.html" class="hover:underline">Evaluación Formativa</a></li>
+                    <li><a href="docente.html" class="hover:underline">Docente</a></li>
+                    <li><a href="organizacionClase.html" class="hover:underline">Organización de la Clase</a></li>
+                    <li><a href="reporte.html" class="hover:underline">Generar Reporte</a></li>
+                </ul>
+            </nav>
+            <button id="exportarHistorial" class="bg-blue-500 text-white py-2 px-4 rounded">Exportar</button>
+            <input type="file" id="importarHistorial" class="hidden" accept=".json">
+            <label for="importarHistorial" class="bg-green-500 text-white py-2 px-4 rounded cursor-pointer">Importar</label>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6">
+        <div class="bg-white p-4 shadow-md rounded-lg">
+            <h2 class="text-xl font-semibold mb-4">Registros Guardados</h2>
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">Nombre CT</th>
+                        <th class="border p-2">Fecha</th>
+                        <th class="border p-2">Ambientes de Aprendizaje</th>
+                        <th class="border p-2">Cuadernos de los Alumnos</th>
+                        <th class="border p-2">Evaluación Formativa</th>
+                        <th class="border p-2">Docente</th>
+                        <th class="border p-2">Organización de la Clase</th>
+                        <th class="border p-2">Generar Reporte</th>
+                        <th class="border p-2">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaHistorial"></tbody>
+            </table>
+            <button id="agregarRegistro" class="mt-4 bg-green-500 text-white py-2 px-4 rounded">Añadir</button>
+            <button class="mt-4 bg-orange-500 text-white py-2 px-4 rounded" onclick="window.location.href='formato.html'">
+                Métricas
+            </button>
+        </div>
+    </main>
+
+    <script src="script7.js"></script>
+</body>
+</html>

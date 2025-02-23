@@ -1,0 +1,28 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.valoracion-btn {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: gray;
+    color: white;
+    transition: background 0.3s;
+}
+
+.valoracion-btn.verde {
+    background-color: green;
+}
+
+.valoracion-btn.amarillo {
+    background-color: yellow;
+    color: black;
+}
+
+.valoracion-btn.rojo {
+    background-color: red;
+}
+

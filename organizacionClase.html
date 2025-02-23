@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organización de la Clase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+<body class="bg-gray-100">
+
+    <!-- Cabecera con navegación -->
+    <header class="bg-white shadow-md p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-gray-800">Organización de la Clase</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:underline">Inicio</a></li>
+                    <li><a href="ambientesAprendizaje.html" class="hover:underline">Ambientes de Aprendizaje</a></li>
+                    <li><a href="cuadernosAlumnos.html" class="hover:underline">Cuadernos de los Alumnos</a></li>
+                    <li><a href="evaluacionFormativa.html" class="hover:underline">Evaluación Formativa</a></li>
+                    <li><a href="docente.html" class="hover:underline">Docente</a></li>
+                    <li><a href="reporte.html" class="hover:underline">Generar Reporte</a></li>
+                </ul>
+            </nav>
+            <button id="guardarTxt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+                <!-- Cuerpo del borrador -->
+                <rect x="10" y="20" width="44" height="24" rx="5" ry="5" fill="#FF6B6B" />
+                <!-- Parte superior del borrador -->
+                <rect x="14" y="16" width="36" height="8" rx="3" ry="3" fill="#FF4C4C" />
+                <!-- Líneas decorativas -->
+                <line x1="18" y1="28" x2="46" y2="28" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="18" y1="32" x2="46" y2="32" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="18" y1="36" x2="46" y2="36" stroke="#FFFFFF" stroke-width="2" />
+              </svg></button>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container mx-auto p-4">
+        <div class="bg-white p-4 shadow-md rounded-lg">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="text-lg font-medium text-gray-800">
+                        <th class="p-2 border text-center">CRITERIO</th>
+                        <th class="p-2 border text-center">ESPERADO</th>
+                        <th class="p-2 border text-center">SUFICIENTE</th>
+                        <th class="p-2 border text-center">REQUIERE APOYO</th>
+                        <th class="p-2 border text-center">VALORACIÓN</th>
+                        <th class="p-2 border text-center">OBSERVACIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCriterios">
+                    <tr>
+                        <td class="p-2 border text-center">UBICACIÓN DE LOS ESTUDIANTES QUE REQUIEREN MÁS APOYO</td>
+                        <td class="p-2 border text-justify">Procura que exista una realización de trabajo colaborativo entre los alumnos con el fin de que puedan convivir entre todos. Se percibe un ambiente de respeto y de autorreflexión por parte de los estudiantes a partir de sus logros. Hay participación y se involucran en las actividades de aprendizaje.</td>
+                        <td class="p-2 border text-justify">A veces existe una realización de trabajo colaborativo entre los alumnos con el fin de que puedan convivir entre todos. Algunas veces se aprecia un ambiente de respeto y de autorreflexión por parte d elos estudiantes a partir de sus logros. Algunas veces hay participación y se involucran en las actividades de aprendizaje.</td>
+                        <td class="p-2 border text-justify">No se aprecia que exista una relación de trabajo colaborativo entre sus alumnos con el fin de que puedan convivir entre todos. No se aprecia un ambiente de respeto y de autorrelexión por parte de los estudiantes a partir de sus logros. Se ve poca participación e involucramiento en las actividades de aprendizaje manteniendose ajenos a las actividades.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="0" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="0" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border text-center">MONITOREA A LOS ESTUDIANTES QUE REQUIEREN MÁS APOYO</td>
+                        <td class="p-2 border text-justify">Anticipa la previsión de materiales de apoyo. Ofrece retroalimentación y permite que se corrijan las actividades. Interactúa mediante sistemas de comunicación que respondan a las condiciones de los estudiantes.</td>
+                        <td class="p-2 border text-justify">En algunas actividades se anticipa la previsión de materiales de apoyo. Ocasionalmente ofrece retroalimentación y permite que corrijan las actividades. A veces interactúa mediante sistemas de comunicación que respondan a las condiciones de los estudiantes.</td>
+                        <td class="p-2 border text-justify">No se anticipa la previsión de materiales de apoyo. Ofrece poca retroalimentación ni permite que se corrijan las actividades. No se aprecian formas de interacción mediante sistemas de comunicación que respondan a las condiciones de los estudiantes.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="1" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="1" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border text-center">MANTIENE CONTROL DE GRUPO FAVORECEDOR CON AYUDA DE ESTRATEGÍAS SOCIOEMOCIONALES</td>
+                        <td class="p-2 border text-justify">Se aprecia la creación de hábitos de organización y respeto entre los estudiantes. Se percibe un proceso positivo que guía a los estudiantes a lograr su autocontrol, facilitando el proceso de aprendizaje. Se pide la atención del grupo de manera cálida y entusiasta con una actividad rápida y breve que permite retomar el control del grupo.</td>
+                        <td class="p-2 border text-justify">Se aprecian algunos hábitos de organización y respeto entre los estudiantes. A veces se percibe un proceso positivo que guía a los estudiantes a lograr su autocontrol, facilitando el proceso de aprendizaje. Se pide la atención del grupo, pero falta una actividad rápida y breve que permite retomar el control del grupo.</td>
+                        <td class="p-2 border text-justify">No se aprecian hábitos de organización y respeto entre los estudiantes. No se percibe un proceso positivo que guía a los estudiantes a lograr su autocontrol, facilitando el proceso de aprendizaje. Falta pedir la atención del grupo de manera cálida y entusiasta con una actividad rápida y breve.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="2" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="2" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                    <tr></tr>
+                        <td class="p-2 border text-center">LOS  ESTUDIANTES MUESTRAN INTERÉS EN LAS ACTIVIDADES Y TRABAJAN DE MANERA COLABORATIVA</td>
+                        <td class="p-2 border text-justify">La motivación depende inicialmente de las necesidades de aprendizaje de los estudiantes. Se aprecia que se encuentran en un ambiente donde son tomados en cuenta como persona que siente, piensa y comparte sus logros. Las experiencias que tienen los estudiantes van formando paulatinamente el autoconcepto y la autoestima.</td>
+                        <td class="p-2 border text-justify">La motivación depende inicialmente de la exposición de aprendizaje a los estudiantes. Se aprecia que se encuentran en un ambiente donde son tomados en cuenta como persona que siente, piensa, pero falta compartir sus logros. Las experiencias que tienen los estudiantes atribuyen al azar sus aprendizajes.</td>
+                        <td class="p-2 border text-justify">Se aprecia que la conducta de los estudiantes se orienta principalmente a evitar el fracaso escolar. Se aprecia que se encuentran en un ambiente donde son poco tomados en cuenta como persona que siente, piensa y no comparten sus logros. Algunos no participan porque pareciera que anticipan que pueden estar equivocados.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="3" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="3" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="bg-white shadow-md mt-8">
+        <div class="max-w-7xl mx-auto py-4 text-center text-gray-600">
+            <p>&copy; 2025 Registro Académico. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script5.js"></script>
+</body>
+</html>

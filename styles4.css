@@ -1,0 +1,59 @@
+@page {
+    size: A4;
+    margin: 2cm;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+}
+
+.title {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.main-table, .sub-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.main-table td, .main-table th,
+.sub-table td, .sub-table th {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: left;
+}
+
+.header {
+    font-weight: bold;
+    background-color: #f3f4f6;
+    text-transform: uppercase;
+}
+
+.large-cell {
+    height: 50px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+th {
+    text-align: center;
+    background-color: #e0e0e0;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 15px;
+}

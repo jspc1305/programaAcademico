@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intervención Pedagógica</title>
+    <link rel="stylesheet" href="styles3.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<!-- Cabecera con navegación -->
+<header class="bg-white shadow-md p-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        
+        <nav>
+            <ul class="flex space-x-4">
+                <li><a href="index.html" class="hover:underline">Inicio</a></li>
+                <li><a href="ambientesAprendizaje.html" class="hover:underline">Ambientes de Aprendizaje</a></li>
+                <li><a href="cuadernosAlumnos.html" class="hover:underline">Cuadernos de los Alumnos</a></li>
+                <li><a href="evaluacionFormativa.html" class="hover:underline">Evaluación Formativa</a></li>
+                <li><a href="docente.html" class="hover:underline">Docente</a></li>
+                <li><a href="organizacionClase.html" class="hover:underline">Organización de la Clase</a></li>
+                <li><a href="reporte.html" class="hover:underline">Generar Reporte</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<body>
+    <div class="container">
+        <h1 class="text-2xl font-semibold text-gray-800">PLAN DE INTERVENCIÓN PEDAGÓGICA</h1>
+
+        <form id="intervencionForm">
+            <div class="row">
+                <label>Fecha: <input type="date" id="fecha"></label>
+                <label>Foco de Atención: <input type="text" id="foco"></label>
+                <label>Motivo:
+                    <select id="motivo">
+                        <option value="Asesoría">Asesoría</option>
+                        <option value="Acompañamiento">Acompañamiento</option>
+                        <option value="Tutoría">Tutoría</option>
+                    </select>
+                </label>
+            </div>
+
+            <label>Propósito de la Asesoría y Acompañamiento:</label>
+            <textarea id="proposito"></textarea>
+
+            <div class="row">
+                <label>Asesor Técnico: <input type="text" id="asesor"></label>
+                <label>Docente: <input type="text" id="docente" readonly></label>
+            </div>
+
+            <div class="row">
+                <label>CCT: <input type="text" id="cct" readonly></label>
+                <label>Lugar: <input type="text" id="lugar"></label>
+            </div>
+
+            <h2 class="text-2xl font-semibold text-gray-800">Sesiones</h2>
+            <table id="tablaSesiones">
+                <tr>
+                    <th>Sesión</th>
+                    <th>Fecha</th>
+                    <th>Acción</th>
+                </tr>
+            </table>
+            <button type="button" class="add-row mt-4 bg-green-500 text-white py-2 px-4 rounded-full text-sm" onclick="agregarFila('tablaSesiones')">Añadir Sesión</button>
+
+            <h2 class="text-2xl font-semibold text-gray-800">Modalidad de Trabajo</h2>
+            <table class="tabla-estilo">
+                <tr>
+                    <th>Modalidad de Trabajo</th>
+                    <th>Intervención/Estrategia Utilizada</th>
+                    <th>Horario</th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="modalidad"></td>
+                    <td><input type="text" id="estrategia"></td>
+                    <td><input type="text" id="horario"></td>
+                </tr>
+            </table>
+
+            <h2 class="text-2xl font-semibold text-gray-800">Detalles</h2>
+            <table id="tablaDetalles">
+                <tr>
+                    <th>Temática</th>
+                    <th>Actividades</th>
+                    <th>Tiempo</th>
+                    <th>Materiales</th>
+                    <th>Productos</th>
+                    <th>Acción</th>
+                </tr>
+            </table>
+            <button type="button" class="add-row mt-4 bg-green-500 text-white py-2 px-4 rounded-full text-sm" onclick="agregarFila('tablaDetalles')">Añadir Detalle</button>
+
+            <label>Seguimiento:</label>
+            <textarea id="seguimiento"></textarea>
+
+            <label>Acuerdos:</label>
+            <textarea id="acuerdos"></textarea>
+
+            <label>Seguimiento de los Acuerdos:</label>
+            <textarea id="seguimientoAcuerdos"></textarea>
+            <button type="button" id="btnImprimir">Imprimir</button>
+        </form>
+    </div>
+
+    <script src="script8.js"></script>
+</body>
+</html>

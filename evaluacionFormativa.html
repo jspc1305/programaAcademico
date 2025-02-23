@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Formativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles1.css">
+</head>
+<body class="bg-gray-100">
+
+    <!-- Cabecera con navegación -->
+    <header class="bg-white shadow-md p-4">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <h1 class="text-2xl font-semibold text-gray-800">Evaluación Formativa</h1>
+            <nav>
+                <ul class="flex space-x-4">
+                    <li><a href="index.html" class="hover:underline">Inicio</a></li>
+                    <li><a href="ambientesAprendizaje.html" class="hover:underline">Ambientes de Aprendizaje</a></li>
+                    <li><a href="cuadernosAlumnos.html" class="hover:underline">Cuadernos de los Alumnos</a></li>
+                    <li><a href="docente.html" class="hover:underline">Docente</a></li>
+                    <li><a href="organizacionClase.html" class="hover:underline">Organización de la Clase</a></li>
+                    <li><a href="reporte.html" class="hover:underline">Generar Reporte</a></li>
+                </ul>
+            </nav>
+            <button id="guardarTxt"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+                <!-- Cuerpo del borrador -->
+                <rect x="10" y="20" width="44" height="24" rx="5" ry="5" fill="#FF6B6B" />
+                <!-- Parte superior del borrador -->
+                <rect x="14" y="16" width="36" height="8" rx="3" ry="3" fill="#FF4C4C" />
+                <!-- Líneas decorativas -->
+                <line x1="18" y1="28" x2="46" y2="28" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="18" y1="32" x2="46" y2="32" stroke="#FFFFFF" stroke-width="2" />
+                <line x1="18" y1="36" x2="46" y2="36" stroke="#FFFFFF" stroke-width="2" />
+              </svg></button>
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="container mx-auto p-4">
+        <div class="bg-white p-4 shadow-md rounded-lg">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="text-lg font-medium text-gray-800">
+                        <th class="p-2 border text-center">CRITERIO</th>
+                        <th class="p-2 border text-center">ESPERADO</th>
+                        <th class="p-2 border text-center">SUFICIENTE</th>
+                        <th class="p-2 border text-center">REQUIERE APOYO</th>
+                        <th class="p-2 border text-center">VALORACIÓN</th>
+                        <th class="p-2 border text-center">OBSERVACIONES</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaCriterios">
+                    <tr>
+                        <td class="p-2 border text-center">RETROALIMENTACIÓN REALIZADA POR EL DOCENTE</td>
+                        <td class="p-2 border text-justify">Proporciona oportunidades de retroalimentación a partir de las inquietudes expresada por los estudiantes. Busca mediante preguntas, que expresen sus opiniones sobre lo aprendido y vincula la experiencia educativa con la situación-problema. En el cuaderno del alumno se observan anotaciones que guían la reflexión, propuestas de mejora, autocorreción.</td>
+                        <td class="p-2 border text-justify">Algunas veces proporciona oportunidades de retroalimentación a partir de las inquietudes expresada por los estudiantes, pero no busca que expresen sus opiniones sobre lo aprendido y hay imprecisiones para vincular la experiencia educativa con la situación-problema, pero falta concretarlo.</td>
+                        <td class="p-2 border text-justify">No hay oportunidades de retroalimentación a partir de las inquietudes expresada por los estudiantes. No busca mediante preguntas, que expresen sus opiniones sobre lo aprendido. No vincula la experiencia educativa con la situación-problema.No se percibe en los cuadernos que se fomente la autocorreción de los estudiantes.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="0" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="0" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border text-center">CÓMO TRABAJA CON EL ERROR</td>
+                        <td class="p-2 border text-justify">Utiliza el error para aprender de él mediante actividades de reflexión y comprobación de hipótesis. Retoma las consignas cuando hay muchas inquietudes entre los estudiantes. Se centra en el logro más que en las dificultades.</td>
+                        <td class="p-2 border text-justify">A veces utiliza el error para aprender de él mediante actividades de reflexión, pero sin comprobación de hipótesis. A veces vuelve a aclara las consignas cuando hay muchas inquietudes entre los estudiantes. Se enfoca en el resultado final señalando errores, pero sin rescatar logros.</td>
+                        <td class="p-2 border text-justify">No utiliza el error para aprender de él mediante actividades de reflexión y ni abre oportunidades a plantear hipótesis. No retoma las consignas y solo se centra en las dificultades señalando los errores como falta de atención o de conocimientos.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="1" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="1" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="p-2 border text-center">FORMAS DE EVALUACIÓN</td>
+                        <td class="p-2 border text-justify">Congruente con los aprendizajes. Fomenta la autoevaluación y coevaluación. Está a la vista el instrumento de evaluación según el proyecto o PDA. Cuenta con un instrumento de registro de logros.</td>
+                        <td class="p-2 border text-justify">Falta congruencia con los aprendizajes. Algunas veces hay autoevaluación y coevaluación. No se visualiza el instrumento de evaluación para todos según el proyecto o PDA. A veces cuenta con instrumento para registrar lo aprendido.</td>
+                        <td class="p-2 border text-justify">No es congruente con los aprendizajes. No fomenta la autoevaluación y coevaluación. No está a la vista el instrumento de evaluación según el proyecto o PDA ni cuenta con algún instrumento para registrar lo aprendido.</td>
+                        <td class="p-2 border"><button class="valoracion-btn w-full" data-index="2" onclick="cambiarColor(this)">Evaluar</button></td>
+                        <td class="p-2 border">
+                            <textarea class="observacion w-full p-1 border rounded" data-index="2" placeholder="Escribe aquí..."></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer class="bg-white shadow-md mt-8">
+        <div class="max-w-7xl mx-auto py-4 text-center text-gray-600">
+            <p>&copy; 2025 Registro Académico. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script3.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imprimir Reporte</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="cargarGrafico()">
+
+    <h1>Reporte de Actividades</h1>
+
+    <table>
+        <tr>
+            <th>Fecha</th>
+            <th>Actividad</th>
+            <th>Estado</th>
+        </tr>
+        <tr>
+            <td>2025-02-21</td>
+            <td>Revisión de documentos</td>
+            <td>En proceso</td>
+        </tr>
+        <tr>
+            <td>2025-02-22</td>
+            <td>Entrega de informe</td>
+            <td>Completado</td>
+        </tr>
+    </table>
+
+    <h2>Gráfico de Progreso</h2>
+    <canvas id="chartPrint"></canvas>
+
+    <h2>Acciones a realizar</h2>
+    <p id="accionesTexto"></p>
+
+    <script>
+        function cargarGrafico() {
+            const ctxPrint = document.getElementById("chartPrint").getContext("2d");
+            new Chart(ctxPrint, {
+                type: "bar",
+                data: {
+                    labels: ["Pendientes", "En proceso", "Completados"],
+                    datasets: [{
+                        label: "Tareas",
+                        data: [3, 5, 8],
+                        backgroundColor: ["red", "yellow", "green"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Cargar texto de acciones desde localStorage
+            document.getElementById("accionesTexto").textContent = localStorage.getItem("acciones") || "No hay acciones registradas.";
+        }
+
+        window.print();
+    </script>
+
+</body>
+</html>
