@@ -23,16 +23,17 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    let valores = [];
+    let valores = []; // Aquí se almacenarán las sumatorias de cada sección para la gráfica
     let sumaTotal = 0;
     let totalCategorias = 0;
 
-    // Se recorre cada sección definida y se buscan en localStorage las claves que contengan el nombre del archivo
     Object.keys(secciones).forEach(pagina => {
         let sumaValoracion = 0;
         let cantidadValoraciones = 0;
         let observaciones = [];
 
+        // Se recorre localStorage y se buscan claves que contengan el nombre de la página
+        // (esto permite encontrar las claves aunque la ruta incluya subdirectorios)
         for (let i = 0; i < localStorage.length; i++) {
             let key = localStorage.key(i);
             if (key && key.includes(pagina)) {
@@ -52,11 +53,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
+        // Se calcula el promedio para mostrar en el panel
         let promedioValoracion = cantidadValoraciones > 0 ? (sumaValoracion / cantidadValoraciones).toFixed(1) : "Sin evaluación";
         let observacionesTexto = observaciones.length > 0 ? observaciones.join(" | ") : "Sin observaciones";
-        
-        valores.push(promedioValoracion === "Sin evaluación" ? 0 : parseFloat(promedioValoracion));
 
+        // Para la gráfica, se almacena la suma total de valoraciones (o 0 si no hay evaluaciones)
+        valores.push(cantidadValoraciones > 0 ? sumaValoracion : 0);
+
+        // Se acumula para el cálculo global (se sigue usando el promedio para el desempeño global)
         if (promedioValoracion !== "Sin evaluación") {
             sumaTotal += parseFloat(promedioValoracion);
             totalCategorias++;
@@ -72,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
         panel.appendChild(card);
     });
 
+    // Se calcula el desempeño global (promedio de promedios)
     let promedioTotal = totalCategorias > 0 ? (sumaTotal / totalCategorias).toFixed(1) : 0;
     let textoDesempeno = "Moderado";
     let colorClase = "text-yellow-600";
@@ -87,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
     desempenoTexto.className = `text-lg font-bold ${colorClase}`;
     desempenoTexto.textContent = `Desempeño: ${textoDesempeno} (${promedioTotal})`;
 
+    // Creación de la gráfica con Chart.js usando las sumas de valoraciones
     const canvas = document.getElementById("graficoDesempeno");
     if (canvas) {
         const ctx = canvas.getContext("2d");
@@ -95,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 labels: Object.values(secciones),
                 datasets: [{
-                    label: "Desempeño",
+                    label: "Sumatoria de Valoraciones",
                     data: valores,
                     backgroundColor: ["#4CAF50", "#FFEB3B", "#F44336", "#2196F3", "#9C27B0"],
                     borderWidth: 1
@@ -103,18 +109,22 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             options: {
                 responsive: true,
-                scales: { y: { beginAtZero: true, min: -10, max: 10 } }
+                scales: {
+                    y: { beginAtZero: true, min: -10, max: 10 }
+                }
             }
         });
     } else {
         console.error("Error: No se encontró el elemento canvas para la gráfica.");
     }
 
+    // Guardar y cargar acciones desde localStorage
     accionesTexto.value = localStorage.getItem("acciones") || "";
     guardarAccionesBtn.addEventListener("click", function() {
         localStorage.setItem("acciones", accionesTexto.value);
     });
 
+    // Función para generar el reporte imprimible
     function generarReporteImpresion() {
         const ct = localStorage.getItem("nombreCT") || "N/A";
         const acciones = localStorage.getItem("acciones") || "";
@@ -148,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         data: {
                             labels: ${JSON.stringify(Object.values(secciones))},
                             datasets: [{
-                                label: 'Desempeño',
+                                label: 'Sumatoria de Valoraciones',
                                 data: ${JSON.stringify(valores)},
                                 backgroundColor: ["#4CAF50", "#FFEB3B", "#F44336", "#2196F3", "#9C27B0"]
                             }]
@@ -156,7 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            scales: { y: { beginAtZero: true, min: -10, max: 10 } }
+                            scales: {
+                                y: { beginAtZero: true, min: -10, max: 10 }
+                            }
                         }
                     });
                 });
