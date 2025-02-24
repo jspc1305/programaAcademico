@@ -8,14 +8,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mapeo de secciones
     const secciones = {
-        "/ambientesAprendizaje.html": "Ambientes de Aprendizaje",
-        "/cuadernosAlumnos.html": "Cuadernos de los Alumnos",
-        "/evaluacionFormativa.html": "Evaluación Formativa",
-        "/docente.html": "Docente",
-        "/organizacionClase.html": "Organización de la Clase"
+        "ambientesAprendizaje": "Ambientes de Aprendizaje",
+        "cuadernosAlumnos": "Cuadernos de los Alumnos",
+        "evaluacionFormativa": "Evaluación Formativa",
+        "docente": "Docente",
+        "organizacionClase": "Organización de la Clase"
     };
 
-    // Mapeo de valoraciones a números
     const valoracionesPuntos = {
         "verde": 2.5,
         "amarillo": 0,
@@ -23,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     function calcularSuma(valoraciones) {
-        const valores = valoraciones.map(v => valoracionesPuntos[v]).filter(v => v !== undefined);
+        const valores = valoraciones.map(v => valoracionesPuntos[v] || 0);
         return valores.length ? valores.reduce((a, b) => a + b, 0).toFixed(2) : "0";
     }
 
@@ -36,9 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let valoraciones = [];
             let observaciones = [];
 
-            // Obtener valoraciones y observaciones de cada sección
             Object.keys(localStorage).forEach(key => {
-                // Se usa includes para asegurar la coincidencia aunque la ruta tenga prefijos o subdirectorios
                 if (key.includes(seccion)) {
                     if (key.includes("valoracion")) {
                         valoraciones.push(localStorage.getItem(key));
@@ -66,7 +63,6 @@ document.addEventListener("DOMContentLoaded", function () {
             promedio: totalSecciones > 0 ? (totalSumas / totalSecciones).toFixed(2) : "0"
         };
 
-        console.log("Datos extraídos de localStorage:", datos);
         return datos;
     }
 
@@ -106,31 +102,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function agregarRegistro() {
         const datosGuardados = obtenerDatosLocalStorage();
-        
-        // Obtener valores de nombreCT, nombreDocente y numVisita desde localStorage
         const nombreCT = localStorage.getItem("nombreCT") || "Sin nombre";
         const nombreDocente = localStorage.getItem("nombreDocente") || "Sin Docente";
         const numVisita = localStorage.getItem("numVisita") || "Sin Visita";
-
-        // Formatear la información para la celda "Nombre CT"
+        
         const nombreCompleto = `[${nombreCT}] [${nombreDocente}] [${numVisita}]`;
 
         const nuevoRegistro = {
-            nombreCT: nombreCompleto,  // Se usa el formato con corchetes
+            nombreCT: nombreCompleto,
             fecha: new Date().toISOString().split("T")[0],
             ...datosGuardados
         };
 
         historial.push(nuevoRegistro);
         localStorage.setItem("historialCT", JSON.stringify(historial));
-
-        console.log("Historial actualizado:", historial);
         renderizarTabla();
     }
 
     function cargarRegistro(index) {
         const registro = historial[index];
-
         if (!registro) return;
 
         Object.keys(localStorage).forEach(key => {
@@ -141,12 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         Object.keys(secciones).forEach(seccion => {
             const nombreSeccion = secciones[seccion];
-
             if (registro[nombreSeccion]) {
                 registro[nombreSeccion].valoraciones.split(" | ").forEach((valor, i) => {
                     localStorage.setItem(`${seccion}-valoracion-${i}`, valor);
                 });
-
                 registro[nombreSeccion].observaciones.split(" | ").forEach((obs, i) => {
                     localStorage.setItem(`${seccion}-observacion-${i}`, obs);
                 });
@@ -172,25 +160,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.body.appendChild(downloadAnchor);
         downloadAnchor.click();
         document.body.removeChild(downloadAnchor);
-    }
-
-    function importarHistorial(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            try {
-                const registrosImportados = JSON.parse(e.target.result);
-                historial = registrosImportados;
-                localStorage.setItem("historialCT", JSON.stringify(historial));
-                renderizarTabla();
-                alert("Historial importado correctamente.");
-            } catch (error) {
-                alert("Error al importar el historial.");
-            }
-        };
-        reader.readAsText(file);
     }
 
     btnAgregar.addEventListener("click", agregarRegistro);
