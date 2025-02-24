@@ -38,7 +38,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Obtener valoraciones y observaciones de cada sección
             Object.keys(localStorage).forEach(key => {
-                if (key.startsWith(seccion)) {
+                // Se usa includes para asegurar la coincidencia aunque la ruta tenga prefijos o subdirectorios
+                if (key.includes(seccion)) {
                     if (key.includes("valoracion")) {
                         valoraciones.push(localStorage.getItem(key));
                     }
