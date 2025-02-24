@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "/docente.html": "Docente",
         "/organizacionClase.html": "Organización de la Clase"
     };
-
+    
     const valoracionesPuntos = {
         "verde": 2.5,
         "amarillo": 0,
@@ -17,66 +17,57 @@ document.addEventListener("DOMContentLoaded", function () {
     const desempenoTexto = document.getElementById("desempenoTexto");
     const accionesTexto = document.getElementById("accionesTexto");
     const guardarAccionesBtn = document.getElementById("guardarAcciones");
+    let valores = [];
+    let sumaTotal = 0;
+    let totalCategorias = 0;
 
     if (!panel || !desempenoTexto || !accionesTexto || !guardarAccionesBtn) {
         console.error("Error: No se encontraron los elementos necesarios en el DOM.");
         return;
     }
 
-    let valores = []; // Aquí se almacenarán las sumatorias de cada sección para la gráfica
-    let sumaTotal = 0;
-    let totalCategorias = 0;
-
     Object.keys(secciones).forEach(pagina => {
         let sumaValoracion = 0;
         let cantidadValoraciones = 0;
         let observaciones = [];
 
-        // Se recorre localStorage y se buscan claves que contengan el nombre de la página
-        // (esto permite encontrar las claves aunque la ruta incluya subdirectorios)
-        for (let i = 0; i < localStorage.length; i++) {
-            let key = localStorage.key(i);
-            if (key && key.includes(pagina)) {
-                if (key.includes("-valoracion-")) {
+        Object.keys(localStorage).forEach(key => {
+            // Usar includes para localizar las claves aunque el path incluya subdirectorios
+            if (key.includes(pagina)) {
+                if (key.includes("valoracion")) {
                     let colorValoracion = localStorage.getItem(key);
-                    if (colorValoracion && valoracionesPuntos.hasOwnProperty(colorValoracion)) {
+                    if (valoracionesPuntos.hasOwnProperty(colorValoracion)) {
                         sumaValoracion += valoracionesPuntos[colorValoracion];
                         cantidadValoraciones++;
                     }
                 }
-                if (key.includes("-observacion-")) {
-                    let obs = localStorage.getItem(key);
-                    if (obs) {
-                        observaciones.push(obs);
-                    }
+                if (key.includes("observacion")) {
+                    observaciones.push(localStorage.getItem(key));
                 }
             }
-        }
+        });
 
-        // Se calcula el promedio para mostrar en el panel
-        let promedioValoracion = cantidadValoraciones > 0 ? (sumaValoracion / cantidadValoraciones).toFixed(1) : "Sin evaluación";
-        let observacionesTexto = observaciones.length > 0 ? observaciones.join(" | ") : "Sin observaciones";
-
-        // Para la gráfica, se almacena la suma total de valoraciones (o 0 si no hay evaluaciones)
-        valores.push(cantidadValoraciones > 0 ? sumaValoracion : 0);
-
-        // Se acumula para el cálculo global (se sigue usando el promedio para el desempeño global)
+        // Se muestra en el panel el promedio (para visualización) y en la gráfica la sumatoria
+        let promedioValoracion = cantidadValoraciones > 0 ? (sumaValoracion).toFixed(1) : "Sin evaluación";
+        observaciones = observaciones.length > 0 ? observaciones.join(" | ") : "Sin observaciones";
+        valores.push(promedioValoracion === "Sin evaluación" ? 0 : parseFloat(sumaValoracion));
+        
         if (promedioValoracion !== "Sin evaluación") {
             sumaTotal += parseFloat(promedioValoracion);
             totalCategorias++;
         }
-
+        
         const card = document.createElement("div");
         card.className = "card p-4 border rounded-lg shadow-md bg-gray-50";
         card.innerHTML = `
             <h3 class="font-semibold">${secciones[pagina]}</h3>
             <p><strong>Valoración:</strong> ${promedioValoracion}</p>
-            <p><strong>Observaciones:</strong> ${observacionesTexto}</p>
+            <p><strong>Observaciones:</strong> ${observaciones}</p>
         `;
         panel.appendChild(card);
     });
 
-    // Se calcula el desempeño global (promedio de promedios)
+    // Calcular promedio total (se utiliza para determinar el desempeño global)
     let promedioTotal = totalCategorias > 0 ? (sumaTotal / totalCategorias).toFixed(1) : 0;
     let textoDesempeno = "Moderado";
     let colorClase = "text-yellow-600";
@@ -92,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     desempenoTexto.className = `text-lg font-bold ${colorClase}`;
     desempenoTexto.textContent = `Desempeño: ${textoDesempeno} (${promedioTotal})`;
 
-    // Creación de la gráfica con Chart.js usando las sumas de valoraciones
+    // Crear la gráfica con Chart.js usando la sumatoria de las valoraciones de cada sección
     const canvas = document.getElementById("graficoDesempeno");
     if (canvas) {
         const ctx = canvas.getContext("2d");
@@ -101,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
             data: {
                 labels: Object.values(secciones),
                 datasets: [{
-                    label: "Sumatoria de Valoraciones",
+                    label: "Desempeño",
                     data: valores,
                     backgroundColor: ["#4CAF50", "#FFEB3B", "#F44336", "#2196F3", "#9C27B0"],
                     borderWidth: 1
@@ -109,18 +100,16 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: { beginAtZero: true, min: -10, max: 10 }
-                }
+                scales: { y: { beginAtZero: true, min: -10, max: 10 } }
             }
         });
     } else {
         console.error("Error: No se encontró el elemento canvas para la gráfica.");
     }
 
-    // Guardar y cargar acciones desde localStorage
+    // Cargar y guardar acciones en localStorage
     accionesTexto.value = localStorage.getItem("acciones") || "";
-    guardarAccionesBtn.addEventListener("click", function() {
+    guardarAccionesBtn.addEventListener("click", () => {
         localStorage.setItem("acciones", accionesTexto.value);
     });
 
@@ -128,46 +117,107 @@ document.addEventListener("DOMContentLoaded", function () {
     function generarReporteImpresion() {
         const ct = localStorage.getItem("nombreCT") || "N/A";
         const acciones = localStorage.getItem("acciones") || "";
+        
+        // Calcular valores y contenido de las secciones para el reporte
+        const seccionesImpresion = Object.keys(secciones).map(pagina => {
+            let sumaValoracion = 0;
+            let cantidadValoraciones = 0;
+            let observaciones = [];
 
+            Object.keys(localStorage).forEach(key => {
+                if (key.includes(pagina)) {
+                    if (key.includes("valoracion")) {
+                        const color = localStorage.getItem(key);
+                        sumaValoracion += valoracionesPuntos[color] || 0;
+                        cantidadValoraciones++;
+                    }
+                    if (key.includes("observacion")) {
+                        observaciones.push(localStorage.getItem(key));
+                    }
+                }
+            });
+
+            return {
+                nombre: secciones[pagina],
+                valoracion: cantidadValoraciones ? sumaValoracion.toFixed(1) : "Sin evaluación",
+                observaciones: observaciones.join(" | ") || "Sin observaciones"
+            };
+        });
+
+        const valoresImpresion = seccionesImpresion.map(s => s.valoracion === "Sin evaluación" ? 0 : parseFloat(s.valoracion));
+        
+        // Construir HTML del reporte
         const printContent = `
         <!DOCTYPE html>
         <html lang="es">
         <head>
             <meta charset="UTF-8">
             <title>Reporte ${ct}</title>
+            <script src="https://cdn.tailwindcss.com"></script>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <style>
                 @media print {
-                    body { margin: 0; padding: 20px; }
+                    body { width: 210mm; height: 297mm; margin: 0; padding: 20px; }
+                    .a4-container { max-width: 794px; margin: 0 auto; }
+                    .chart-container { width: 100%; height: 400px; }
                     canvas { width: 100% !important; height: 100% !important; }
                 }
             </style>
         </head>
-        <body>
-            <h1>Reporte: ${ct}</h1>
-            <div>
-                <h2>Acciones a Realizar</h2>
-                <p>${acciones}</p>
+        <body class="bg-white a4-container">
+            <h1 class="text-3xl font-bold mb-6">Reporte: ${ct}</h1>
+            
+            <!-- Valoraciones -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4">Valoraciones y Observaciones</h2>
+                <div class="grid gap-4">
+                    ${seccionesImpresion.map(s => `
+                        <div class="p-3 border rounded bg-gray-50">
+                            <h3 class="font-semibold">${s.nombre}</h3>
+                            <p><strong>Valoración:</strong> ${s.valoracion}</p>
+                            <p><strong>Observaciones:</strong> ${s.observaciones}</p>
+                        </div>
+                    `).join('')}
+                </div>
             </div>
-            <canvas id="chartPrint"></canvas>
+
+            <!-- Gráfica -->
+            <div class="mb-8">
+                <h2 class="text-xl font-semibold mb-4">Desempeño por Área</h2>
+                <div class="chart-container">
+                    <canvas id="chartPrint"></canvas>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Acciones a Realizar</h2>
+                <div class="p-4 border rounded bg-gray-50 whitespace-pre-wrap">${acciones}</div>
+            </div>
+
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
                     const ctx = document.getElementById('chartPrint').getContext('2d');
                     new Chart(ctx, {
                         type: 'bar',
                         data: {
-                            labels: ${JSON.stringify(Object.values(secciones))},
+                            labels: ${JSON.stringify(seccionesImpresion.map(s => s.nombre))},
                             datasets: [{
-                                label: 'Sumatoria de Valoraciones',
-                                data: ${JSON.stringify(valores)},
+                                label: 'Desempeño',
+                                data: ${JSON.stringify(valoresImpresion)},
                                 backgroundColor: ["#4CAF50", "#FFEB3B", "#F44336", "#2196F3", "#9C27B0"]
                             }]
                         },
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
-                            scales: {
-                                y: { beginAtZero: true, min: -10, max: 10 }
+                            scales: { y: { beginAtZero: true, min: -10, max: 10 } },
+                            plugins: {
+                                legend: { display: false },
+                                tooltip: { enabled: true }
+                            },
+                            layout: {
+                                padding: { left: 20, right: 20, top: 20, bottom: 20 }
                             }
                         }
                     });
@@ -182,8 +232,6 @@ document.addEventListener("DOMContentLoaded", function () {
         ventana.document.close();
     }
 
-    const imprimirBtn = document.getElementById('imprimirBtn');
-    if (imprimirBtn) {
-        imprimirBtn.addEventListener('click', generarReporteImpresion);
-    }
+    // Evento para el botón de imprimir
+    document.getElementById('imprimirBtn').addEventListener('click', generarReporteImpresion);
 });
