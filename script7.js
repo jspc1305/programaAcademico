@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let historial = JSON.parse(localStorage.getItem("historialCT")) || [];
 
-    // Mapeo de secciones
     const secciones = {
         "ambientesAprendizaje": "Ambientes de Aprendizaje",
         "cuadernosAlumnos": "Cuadernos de los Alumnos",
@@ -100,6 +99,24 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function importarHistorial(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            try {
+                historial = JSON.parse(e.target.result);
+                localStorage.setItem("historialCT", JSON.stringify(historial));
+                renderizarTabla();
+                alert("Historial importado correctamente.");
+            } catch (error) {
+                alert("Error al importar el archivo. Asegúrate de que sea un JSON válido.");
+            }
+        };
+        reader.readAsText(file);
+    }
+
     function agregarRegistro() {
         const datosGuardados = obtenerDatosLocalStorage();
         const nombreCT = localStorage.getItem("nombreCT") || "Sin nombre";
@@ -117,33 +134,6 @@ document.addEventListener("DOMContentLoaded", function () {
         historial.push(nuevoRegistro);
         localStorage.setItem("historialCT", JSON.stringify(historial));
         renderizarTabla();
-    }
-
-    function cargarRegistro(index) {
-        const registro = historial[index];
-        if (!registro) return;
-
-        Object.keys(localStorage).forEach(key => {
-            if (key.includes("valoracion") || key.includes("observacion")) {
-                localStorage.removeItem(key);
-            }
-        });
-
-        Object.keys(secciones).forEach(seccion => {
-            const nombreSeccion = secciones[seccion];
-            if (registro[nombreSeccion]) {
-                registro[nombreSeccion].valoraciones.split(" | ").forEach((valor, i) => {
-                    localStorage.setItem(`${seccion}-valoracion-${i}`, valor);
-                });
-                registro[nombreSeccion].observaciones.split(" | ").forEach((obs, i) => {
-                    localStorage.setItem(`${seccion}-observacion-${i}`, obs);
-                });
-            }
-        });
-
-        localStorage.setItem("nombreCT", registro.nombreCT);
-        alert("Datos cargados correctamente.");
-        location.reload();
     }
 
     function eliminarRegistro(index) {
